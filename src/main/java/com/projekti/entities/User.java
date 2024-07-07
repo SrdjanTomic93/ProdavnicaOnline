@@ -1,4 +1,4 @@
- package com.projekti.entities;
+package com.projekti.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -23,51 +22,41 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.projekti.security.Views;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserEntity {
-	
-	
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@Table(name = "user_entity")
+public class User {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonView(Views.Public.class)
 	@Column(nullable = false)
 	private Integer id;
-	
+
 	@JsonView(Views.Private.class)
 	@Column(nullable = false)
 	private String firstName;
-	
+
 	@JsonView(Views.Private.class)
 	@NotNull(message = "First name must be provided.")
 	@Column(nullable = false)
 	private String lastName;
-	
-	
-	
+
 	@JsonView(Views.Public.class)
 	private String userName;
-	
-	
+
 	@JsonView(Views.Private.class)
-	@NotNull(message = "First name must be provided.")
-	@Size(min = 5, message = "Polje mora imati najmanje 5 karaktera")
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).*$", message = "Polje mora sadržati slova i brojeve")
 	@Column(nullable = false)
 	private String password;
-	
+
 	@JsonView(Views.Private.class)
-	@NotNull(message = "First name must be provided.")
 	@Column(nullable = false)
 	private String email;
-	
-	
+
 	@JsonView(Views.Admin.class)
-	@NotNull(message = "First name must be provided.")
 	@Column(nullable = false)
 	@Enumerated(EnumType.ORDINAL)
 	private userRole us;
-	
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -115,8 +104,6 @@ public class UserEntity {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
 
 	public userRole getUs() {
 		return us;
@@ -126,66 +113,58 @@ public class UserEntity {
 		this.us = us;
 	}
 
-	public UserEntity(Integer id, String firstName, String lastName, String userName, String password, String email,userRole us) {
-		
+	public User(Integer id, String firstName, String lastName, String userName, String password, String email,
+			userRole us) {
+
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
 		this.email = email;
-	    this.us=us;
+		this.us = us;
 	}
 
-	public UserEntity() {
-	
+	public User() {
+
 	}
+
 	@JsonView(Views.Private.class)
-	@JsonIgnore//3.2.2 korisnik moze da kreira vise ponuda, dok jednu ponudu moze kreirati samo jedan korisnik
-	@OneToMany(mappedBy="users",fetch=FetchType.LAZY,cascade= {CascadeType.REFRESH})
-	private List<OfferEntity>offers=new ArrayList<>();
+	@JsonIgnore
+	@OneToMany(mappedBy = "users", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	private List<Offer> offers = new ArrayList<>();
 
-
-	public List<OfferEntity> getOffers() {
+	public List<Offer> getOffers() {
 		return offers;
 	}
 
-	public void setOffers(List<OfferEntity> offers) {
+	public void setOffers(List<Offer> offers) {
 		this.offers = offers;
 	}
-	
+
 	@JsonIgnore
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { 
-	CascadeType.REFRESH })
-	private List<BillEntity>bill=new ArrayList<>();//korisnik moze da ima jedan racun, a na racun podrazumeva samo jednog korisnika
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	private List<Bill> bill = new ArrayList<>();
 
-
-	public List<BillEntity> getBill() {
+	public List<Bill> getBill() {
 		return bill;
 	}
 
-	public void setBill(List<BillEntity> bill) {
+	public void setBill(List<Bill> bill) {
 		this.bill = bill;
 	}
-	   @JsonView(Views.Private.class)
-	   @JsonIgnore
-	   @OneToMany(mappedBy="user",fetch=FetchType.LAZY,cascade= {CascadeType.REFRESH})
-	   private List<VoucherEntity>voucher=new ArrayList<>();
 
+	@JsonView(Views.Private.class)
+	@JsonIgnore
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	private List<Voucher> voucher = new ArrayList<>();
 
-	public List<VoucherEntity> getVoucher() {
+	public List<Voucher> getVoucher() {
 		return voucher;
 	}
 
-	public void setVoucher(List<VoucherEntity> voucher) {
+	public void setVoucher(List<Voucher> voucher) {
 		this.voucher = voucher;
 	}
 
-
-	
-	
-	
-
-	
-	
 }

@@ -1,6 +1,5 @@
 package com.projekti.entities.dto;
 
-
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -14,33 +13,31 @@ import com.projekti.entities.userRole;
 
 public class UserDto {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	
+
 	@NotNull(message = "First name must be provided.")
 	private String firstName;
-	
+
 	@NotNull(message = "First name must be provided.")
 	private String lastName;
-	
+
 	@NotNull(message = "First name must be provided.")
-	@Size(min=5,max=20, message="user name must be between {min} and {max} characters long")
+	@Size(min = 5, max = 20, message = "user name must be between {min} and {max} characters long")
 	private String userName;
-	
+
 	@NotNull(message = "First name must be provided.")
-	@Size(min = 5, message = "Polje mora imati najmanje 5 karaktera")
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).*$", message = "Polje mora sadržati slova i brojeve")
+	@Size(min = 5, message = "Field must have at least 5 characters.")
+	@Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).*$", message = "Field must contain both letters and numbers.")
 	private String password;
-	
+
 	@NotNull(message = "First name must be provided.")
 	private String email;
-	
+
 	@NotNull(message = "First name must be provided.")
 	@Enumerated(EnumType.ORDINAL)
 	private userRole us;
-
 
 	public Integer getId() {
 		return id;
@@ -89,8 +86,6 @@ public class UserDto {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
 
 	public userRole getUs() {
 		return us;
@@ -99,8 +94,9 @@ public class UserDto {
 	public void setUs(userRole us) {
 		this.us = us;
 	}
+
 	public UserDto() {
-		
+
 	}
-	
+
 }

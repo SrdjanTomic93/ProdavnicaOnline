@@ -1,55 +1,47 @@
 package com.projekti.entities.dto;
 
-import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.projekti.entities.offerStatus;
 
 public class OfferDTO {
 
-	
-	
-	 private Integer id;
-	
-	 @NotNull(message = "OfferName ne sme biti prazno")
-	 private String offerName;
-	 
-	 @NotNull(message = "offerDescription ne sme biti prazno")
-	 @Size(min=5,max=20,message="Polje mora imati izmedju 5 i 20 karaktera")
-	 private String offerDescription;
-	 
-	 @NotNull(message = "OfferCreated ne sme biti prazno")
-	 private String offerCreated;
-	
-	 @NotNull(message = "OfferExpires ne sme biti prazno.")
-	 private String offerExpires;
-	
+	private Integer id;
 
-	 @NotNull(message = "regularPrice ne sme biti prazno")
-	 @Min(value = 1, message = "Najmanja vrednost mora biti jedan")
-	 private Integer regularPrice;
-	
-	 @NotNull(message = "actionPrice ne sme biti prazno")
-	 @Min(value = 1, message = "Najmanja vrednost mora biti jedan")
-	 private Integer actionPrice;
-	 
-	 @NotNull(message = "of ne sme biti prazno")
+	@NotNull(message = " OfferName must be provided.")
+	private String offerName;
+
+	@NotNull(message = "offerDescription must be provided.")
+	@Size(min = 5, max = 20, message = "Field must have at least 5 ahd the most 20 characters.")
+	private String offerDescription;
+
+	@NotNull(message = "OfferCreated must be provided.")
+	private String offerCreated;
+
+	@NotNull(message = "OfferExpires must be provided.")
+	private String offerExpires;
+
+	@NotNull(message = "regularPrice must be provided.")
+	@Min(value = 1, message = "The minimum value must be number bigger then zero.")
+	private Integer regularPrice;
+
+	@NotNull(message = "actionPrice must be provided.")
+	@Min(value = 1, message = "The minimum value must be a number bigger than zero.")
+	private Integer actionPrice;
+
+	@NotNull(message = "of must be provided.")
 	@Enumerated(EnumType.ORDINAL)
-     private offerStatus of;
-	
-	@NotNull(message = "BrojPonuda ne sme biti prazno")
-	private Integer brojPonuda;
+	private offerStatus of;
 
-	OfferDTO(){}
+	@NotNull(message = "NumberOfOffers must be provided.")
+	private Integer numberOfOffers;
+
+	OfferDTO() {
+	}
 
 	public Integer getId() {
 		return id;
@@ -115,13 +107,12 @@ public class OfferDTO {
 		this.of = of;
 	}
 
-	public Integer getBrojPonuda() {
-		return brojPonuda;
+	public Integer getNumberOfOffers() {
+		return numberOfOffers;
 	}
 
-	public void setBrojPonuda(Integer brojPonuda) {
-		this.brojPonuda = brojPonuda;
+	public void setBrojPonuda(Integer numberOfOffers) {
+		this.numberOfOffers = numberOfOffers;
 	}
-	
-	
+
 }

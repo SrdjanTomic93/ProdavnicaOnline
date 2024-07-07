@@ -1,44 +1,18 @@
 package com.projekti.repositories;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
-import com.projekti.entities.BillEntity;
-import com.projekti.entities.CategoryEntity;
+import com.projekti.entities.Bill;
+import com.projekti.entities.dto.BillDTO;
 
-public interface BillRepository extends JpaRepository<BillEntity,Integer> {
+public interface BillRepository extends JpaRepository<Bill, Integer> {
 
-	Iterable<BillEntity> findAllByUser(Integer user);
+	Iterable<Bill> findAllByUser(Integer user);
 
-	List<BillEntity> findByBillCreatedBetween(String startDate, String endDate);
+	List<Bill> findByBillCreatedBetween(String startDate, String endDate);
 
-	
-
-
-
-	
-
-	
-
-	
-
-
-	
-
-	
-
-
-	
-
-	
-
-
-	
-	
-
-	
+	void save(BillDTO bill);
 
 }

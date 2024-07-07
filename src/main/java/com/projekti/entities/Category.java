@@ -11,24 +11,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.projekti.security.Views;
 
 @Entity
-public class CategoryEntity {
+@Table(name = "category_entity")
+public class Category {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonView(Views.Public.class)
 	private Integer id;
-	
+
 	@Column(nullable = false)
 	@JsonView(Views.Public.class)
 	private String name;
-	
+
 	@Column(nullable = false)
 	@JsonView(Views.Public.class)
 	private String categoryDescription;
@@ -57,24 +58,20 @@ public class CategoryEntity {
 		this.categoryDescription = categoryDescription;
 	}
 
-	public CategoryEntity() {
-	
+	public Category() {
+
 	}
 
-	public CategoryEntity(Integer id, String name, String categoryDescription) {
-		
+	public Category(Integer id, String name, String categoryDescription) {
+
 		this.id = id;
 		this.name = name;
 		this.categoryDescription = categoryDescription;
 	}
+
 	@JsonView(Views.Public.class)
-	@JsonIgnore//3.2.1 jedna ponuda pripada tacno jednoj kategoriji, dok jedna kategorija moze imati vise ponuda
-	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = {
-			CascadeType.REFRESH })
-	private List<OfferEntity>offers=new ArrayList<>();
-	
-	
-	
-	
-	
+	@JsonIgnore
+	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = { CascadeType.REFRESH })
+	private List<Offer> offers = new ArrayList<>();
+
 }

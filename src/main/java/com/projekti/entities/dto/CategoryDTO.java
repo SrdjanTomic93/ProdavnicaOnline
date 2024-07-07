@@ -6,11 +6,11 @@ import javax.validation.constraints.Size;
 public class CategoryDTO {
 
 	private Integer id;
-	
+
 	@NotNull(message = "First name must be provided.")
 	private String name;
-	
-	@Size(min = 5, max=50, message = "Polje mora imati najmanje 5 karaktera, a najvise 50")
+
+	@Size(min = 5, max = 50, message = "The field must have at least 5 and at most 50 characters.")
 	private String categoryDescription;
 
 	public Integer getId() {
@@ -38,10 +38,7 @@ public class CategoryDTO {
 	}
 
 	public CategoryDTO() {
-	
+
 	}
-	
-	
-	
-	
+
 }

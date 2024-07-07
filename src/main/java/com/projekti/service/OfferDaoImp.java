@@ -8,31 +8,28 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.projekti.entities.CategoryEntity;
-import com.projekti.entities.OfferEntity;
-import com.projekti.entities.UserEntity;
+import com.projekti.entities.Category;
+import com.projekti.entities.Offer;
+import com.projekti.entities.User;
 import com.projekti.entities.dto.OfferDTO;
 import com.projekti.repositories.CategoryRepository;
 import com.projekti.repositories.OfferRepository;
 import com.projekti.repositories.UserRepository;
-import com.sun.mail.handlers.message_rfc822;
 
 @Service
 public class OfferDaoImp implements OfferDao {
-    
-	
+
 	@Autowired
 	OfferRepository offerRepository;
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	CategoryRepository categoryRepository;
-	
-	public OfferEntity dodajPonudu(OfferDTO offerDTO)
-	{
-		OfferEntity offer=new OfferEntity();
+
+	public Offer dodajPonudu(OfferDTO offerDTO) {
+		Offer offer = new Offer();
 		offer.setOfferName(offerDTO.getOfferName());
 		offer.setOfferDescription(offerDTO.getOfferDescription());
 		offer.setOfferCreated(offerDTO.getOfferCreated());
@@ -40,61 +37,53 @@ public class OfferDaoImp implements OfferDao {
 		offer.setRegularPrice(offerDTO.getRegularPrice());
 		offer.setActionPrice(offerDTO.getActionPrice());
 		offer.setOf(offerDTO.getOf());
-		offer.setBrojPonuda(offerDTO.getBrojPonuda());
-		
+		offer.setNumberOfOffers(offerDTO.getNumberOfOffers());
+
 		offerRepository.save(offer);
 		return offer;
-		
-	}
-	
-	
-Date currentDate=new Date();
-	
-	
-	SimpleDateFormat timeFormat=new SimpleDateFormat("yyyy-MM-dd");// trenutni datum
-	
-	long timel=currentDate.getTime()+10*24*60*60*1000;// inicijalizacija datuma 10 dana od trenutnog
-	
-	
-	
-	public  String addUserToOffer(@PathVariable Integer id, @RequestParam Integer users)/*3.2.3 dodavanje kategorije i korisnika koji je kreirao ponudu. Ponuda 
-	istice 10 dana  od trenutka kreiranje i pravo da je kreira ima samo "SELLER"*/
-	{
-			OfferEntity offer=offerRepository.findById(id).get();
-			UserEntity use=userRepository.findById(users).get();
-			
-			if(use.getUs().toString().equals("SELLER"))
-			{
-			offer.setOfferCreated(timeFormat.format(currentDate));
-			offer.setOfferExpires(timeFormat.format(timel));
-			
-		
-			offer.setUsers(use);
-              offerRepository.save(offer);
-              return "User je uspesno dodat";
-			}
-			else
-			
-				return "User mora biti SELLER";
-			
-	}
-	
-	public String addCategoryToOffer(@PathVariable Integer id,@RequestParam Integer category)
-	{
-		
-		OfferEntity offer=offerRepository.findById(id).orElse(null);
-		CategoryEntity cat=categoryRepository.findById(category).orElse(null);
-		 if (offer != null && cat != null) {
-		        offer.setCategory(cat);
-		        offerRepository.save(offer);
-		        return "Kategorija je uspesno dodata ponudi";
-		        
-		 }
-		        else
-		      return "Pogresno uneta kategorija ili ponuda";
+
 	}
 
-	
-	
-	
+	Date currentDate = new Date();
+
+	SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd");// current date
+
+	long timel = currentDate.getTime() + 10 * 24 * 60 * 60 * 1000;// Initialize the date to 10 days from the current
+																	// date
+
+	public String addUserToOffer(@PathVariable Integer id,
+			@RequestParam Integer users)/*
+										 * Adding category and user who created the offer. The offer expires 10 days
+										 * from the creation date and only the "SELLER" has the right to create it.
+										 */
+	{
+		Offer offer = offerRepository.findById(id).get();
+		User use = userRepository.findById(users).get();
+
+		if (use.getUs().toString().equals("SELLER")) {
+			offer.setOfferCreated(timeFormat.format(currentDate));
+			offer.setOfferExpires(timeFormat.format(timel));
+
+			offer.setUsers(use);
+			offerRepository.save(offer);
+			return "User is added";
+		} else
+
+			return "User must be SELLER";
+
+	}
+
+	public String addCategoryToOffer(@PathVariable Integer id, @RequestParam Integer category) {
+
+		Offer offer = offerRepository.findById(id).orElse(null);
+		Category cat = categoryRepository.findById(category).orElse(null);
+		if (offer != null && cat != null) {
+			offer.setCategory(cat);
+			offerRepository.save(offer);
+			return "Category is added successfully";
+
+		} else
+			return "Incorrect category or offer entered";
+	}
+
 }
